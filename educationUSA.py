@@ -21,7 +21,7 @@ data.drop(columns="Names", inplace=True)
 data.loc[582,"PhD"]=100
 data.loc[95,"Grad_Rate"]=100
 
-""" check the clustering
+
 #check for distribution and outliers
 cont_cols = list(data.columns)
 for col in cont_cols:
@@ -39,7 +39,7 @@ for col in cont_cols:
 plt.figure(figsize=(15,10))
 sns.heatmap(data.corr(), annot=True, fmt='0.2f')
 plt.show()
-"""
+
 #scale the data
 scaler=StandardScaler()
 data_scaled=pd.DataFrame(scaler.fit_transform(data), columns=data.columns)
@@ -54,14 +54,14 @@ data_pca1 = pd.DataFrame(pca.fit_transform(data_scaled))
 
 #The percentage of variance explained by each principal component
 exp_var = pca.explained_variance_ratio_
-"""
+
 # visualize the Explained Individual Components
 plt.figure(figsize = (10,10))
 plt.plot(range(1,18), pca.explained_variance_ratio_.cumsum(), marker = 'o', linestyle = '--')
 plt.title("Explained Variances by Components")
 plt.xlabel("Number of Components")
 plt.ylabel("Cumulative Explained Variance")
-"""
+
 # find the least number of components that can explain more than 70% variance
 sum = 0
 for ix, i in enumerate(exp_var):
@@ -70,12 +70,11 @@ for ix, i in enumerate(exp_var):
     print("Number of PCs that explain at least 70% variance: ", ix+1)
     break
 
-
 pc_comps = ['PC1','PC2','PC3','PC4']
 data_pca = pd.DataFrame(np.round(pca.components_[:4,:],2),index=pc_comps,columns=data_scaled.columns)
-#data_pca.T
+data_pca.T
 
-"""
+
 def color_high(val):
     if val <-0.25: # you can decide any value as per your understanding
         return 'background: pink'
@@ -83,9 +82,9 @@ def color_high(val):
         return 'background: skyblue'   
    
 data_pca.T.style.applymap(color_high)
-"""
 
 plt.figure(figsize = (7,7))
 sns.scatterplot(x=data_pca1[0],y=data_pca1[1])
 plt.xlabel("PC1")
 plt.ylabel("PC2")
+plt.show()
